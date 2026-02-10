@@ -158,20 +158,6 @@
             font-size: 14px;
         }
 
-        .link {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            transition: color 0.2s;
-        }
-
-        .link:hover {
-            color: #764ba2;
-        }
-
         .features {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -202,7 +188,6 @@
             display: none;
         }
 
-        /* 學生資訊卡片 */
         .student-card {
             background: #f8f9fa;
             border-radius: 15px;
@@ -314,6 +299,13 @@
             display: inline-block;
             margin-bottom: 15px;
         }
+
+        .test-info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -336,23 +328,23 @@
                 
                 <div id="errorMsg" class="error hidden"></div>
 
-                <form id="loginForm">
+                <form id="loginForm" onsubmit="handleLogin(event)">
                     <div class="form-group">
                         <label for="phone">手機號碼</label>
                         <input type="tel" id="phone" placeholder="測試帳號: 0912345678" required>
                     </div>
 
-                    <button type="submit" class="btn">查詢學費</button>
+                    <button type="submit" class="btn" id="submitBtn">查詢學費</button>
                 </form>
 
                 <div class="divider">
                     <span>測試帳號</span>
                 </div>
 
-                <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; font-size: 14px;">
+                <div class="test-info">
                     <strong>可用手機號碼：</strong><br>
-                    • 0912345678 (張小明)<br>
-                    • 0987654321 (李小華、李小美)
+                    • <strong>0912345678</strong> (張小明)<br>
+                    • <strong>0987654321</strong> (李小華、李小美)
                 </div>
             </div>
 
@@ -382,7 +374,200 @@
         </div>
     </div>
 
-    <script src="config.js"></script>
-    <script src="app.js"></script>
+    <script>
+        // ===== 配置資料 =====
+        const DEMO_DATA = {
+            '0912345678': [
+                {
+                    studentNo: 'GAG699',
+                    studentName: '張小明',
+                    age: 10,
+                    grade: '國小四年級',
+                    instrument: 'Acoustic Guitar',
+                    payments: [
+                        { month: 'JAN', amount: 1500, receiptNo: 'R2024001', isPaid: true },
+                        { month: 'FEB', amount: 1500, receiptNo: 'R2024002', isPaid: true },
+                        { month: 'MAR', amount: 1500, receiptNo: '', isPaid: false },
+                        { month: 'APR', amount: 1500, receiptNo: '', isPaid: false },
+                    ]
+                }
+            ],
+            '0987654321': [
+                {
+                    studentNo: 'P720',
+                    studentName: '李小華',
+                    age: 12,
+                    grade: '國小六年級',
+                    instrument: 'Piano',
+                    payments: [
+                        { month: 'JAN', amount: 2000, receiptNo: 'R2024010', isPaid: true },
+                        { month: 'FEB', amount: 2000, receiptNo: '', isPaid: false },
+                        { month: 'MAR', amount: 2000, receiptNo: '', isPaid: false },
+                    ]
+                },
+                {
+                    studentNo: 'PA619(S)',
+                    studentName: '李小美',
+                    age: 9,
+                    grade: '國小三年級',
+                    instrument: 'Piano',
+                    payments: [
+                        { month: 'JAN', amount: 1800, receiptNo: 'R2024011', isPaid: true },
+                        { month: 'FEB', amount: 1800, receiptNo: '', isPaid: false },
+                    ]
+                }
+            ]
+        };
+
+        // ===== 工具函式 =====
+        function normalizePhone(phone) {
+            return phone.replace(/[-\s]/g, '');
+        }
+
+        function validatePhone(phone) {
+            const cleaned = normalizePhone(phone);
+            return /^09\d{8}$/.test(cleaned);
+        }
+
+        // ===== 顯示學生資訊 =====
+        function displayStudentInfo(students) {
+            const container = document.getElementById('studentInfo');
+            container.innerHTML = '';
+
+            students.forEach(student => {
+                const card = document.createElement('div');
+                card.className = 'student-card';
+                
+                const paymentsHTML = student.payments.map(payment => `
+                    <tr>
+                        <td>${payment.month}</td>
+                        <td>$${payment.amount}</td>
+                        <td>${payment.receiptNo || '-'}</td>
+                        <td>
+                            <span class="status-badge ${payment.isPaid ? 'status-paid' : 'status-unpaid'}">
+                                ${payment.isPaid ? '已繳費' : '未繳費'}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                card.innerHTML = `
+                    <div class="student-header">
+                        <div class="student-name">${student.studentName}</div>
+                        <div class="student-no">${student.studentNo}</div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <span class="info-label">樂器</span>
+                        <span class="info-value">${student.instrument}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">年齡</span>
+                        <span class="info-value">${student.age} 歲</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">年級</span>
+                        <span class="info-value">${student.grade}</span>
+                    </div>
+
+                    <h3 style="margin-top: 20px; margin-bottom: 10px; color: #333;">繳費記錄</h3>
+                    <table class="payment-table">
+                        <thead>
+                            <tr>
+                                <th>月份</th>
+                                <th>金額</th>
+                                <th>收據編號</th>
+                                <th>狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${paymentsHTML}
+                        </tbody>
+                    </table>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // ===== 處理登入 =====
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const loginPage = document.getElementById('loginPage');
+            const dashboardPage = document.getElementById('dashboardPage');
+            const submitBtn = document.getElementById('submitBtn');
+
+            // 驗證手機號碼
+            if (!validatePhone(phone)) {
+                errorMsg.textContent = '請輸入有效的手機號碼（格式：09xxxxxxxx）';
+                errorMsg.classList.remove('hidden');
+                return;
+            }
+
+            // 隱藏錯誤訊息
+            errorMsg.classList.add('hidden');
+
+            // 顯示載入中
+            submitBtn.textContent = '查詢中...';
+            submitBtn.disabled = true;
+
+            // 格式化手機號碼
+            const normalizedPhone = normalizePhone(phone);
+
+            // 模擬延遲
+            setTimeout(() => {
+                // 查詢資料
+                const students = DEMO_DATA[normalizedPhone];
+
+                if (students) {
+                    // 儲存到 localStorage
+                    localStorage.setItem('currentPhone', normalizedPhone);
+                    localStorage.setItem('students', JSON.stringify(students));
+
+                    // 顯示學生資訊
+                    displayStudentInfo(students);
+
+                    // 切換頁面
+                    loginPage.classList.add('hidden');
+                    dashboardPage.classList.remove('hidden');
+                } else {
+                    errorMsg.textContent = '找不到與此手機號碼相關的學生\n\n請使用測試帳號：0912345678 或 0987654321';
+                    errorMsg.classList.remove('hidden');
+                }
+
+                // 恢復按鈕
+                submitBtn.textContent = '查詢學費';
+                submitBtn.disabled = false;
+            }, 500);
+        }
+
+        // ===== 登出功能 =====
+        function logout() {
+            localStorage.removeItem('currentPhone');
+            localStorage.removeItem('students');
+            
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('phone').value = '';
+        }
+
+        // ===== 頁面載入時檢查是否已登入 =====
+        window.addEventListener('load', () => {
+            const studentsJSON = localStorage.getItem('students');
+            if (studentsJSON) {
+                try {
+                    const students = JSON.parse(studentsJSON);
+                    displayStudentInfo(students);
+                    document.getElementById('loginPage').classList.add('hidden');
+                    document.getElementById('dashboardPage').classList.remove('hidden');
+                } catch (e) {
+                    localStorage.removeItem('students');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
