@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音樂學校學費管理系統</title>
+    <title>VMS 音樂學校學費管理系統</title>
     <style>
         * {
             margin: 0;
@@ -22,7 +22,7 @@
         }
 
         .container {
-            max-width: 500px;
+            max-width: 600px;
             width: 100%;
         }
 
@@ -32,8 +32,8 @@
         }
 
         .logo-circle {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             background: white;
             border-radius: 50%;
             display: flex;
@@ -43,21 +43,22 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
-        .logo-circle svg {
-            width: 40px;
-            height: 40px;
-            fill: #667eea;
+        .logo-text {
+            font-size: 28px;
+            font-weight: 800;
+            color: #667eea;
         }
 
         h1 {
             color: white;
-            font-size: 32px;
+            font-size: 36px;
             margin-bottom: 10px;
+            font-weight: 700;
         }
 
         .subtitle {
-            color: rgba(255,255,255,0.9);
-            font-size: 16px;
+            color: rgba(255,255,255,0.95);
+            font-size: 18px;
         }
 
         .card {
@@ -68,9 +69,10 @@
         }
 
         .card h2 {
-            font-size: 24px;
+            font-size: 26px;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
 
         .form-group {
@@ -87,9 +89,9 @@
 
         input {
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 16px;
             transition: all 0.3s;
         }
@@ -97,65 +99,53 @@
         input:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+            box-shadow: 0 0 0 4px rgba(102,126,234,0.1);
         }
 
         .btn {
             width: 100%;
-            padding: 15px;
+            padding: 16px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 12px;
+            font-size: 17px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
         }
 
-        .btn:hover {
+        .btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+            box-shadow: 0 12px 24px rgba(102,126,234,0.4);
         }
 
         .btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
-            transform: none;
         }
 
         .error {
             background: #fee;
             border: 1px solid #fcc;
             color: #c33;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 10px;
             margin-bottom: 20px;
             font-size: 14px;
+            line-height: 1.5;
         }
 
-        .divider {
-            margin: 30px 0;
-            text-align: center;
-            position: relative;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 50%;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .divider span {
-            background: white;
-            padding: 0 15px;
-            position: relative;
-            color: #999;
-            font-size: 14px;
+        .success-badge {
+            background: #d4f4dd;
+            border: 1px solid #4caf50;
+            color: #2e7d32;
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
         .features {
@@ -176,12 +166,12 @@
 
         .feature-icon {
             font-size: 32px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .feature-text {
-            font-size: 12px;
-            opacity: 0.9;
+            font-size: 13px;
+            opacity: 0.95;
         }
 
         .hidden {
@@ -189,78 +179,86 @@
         }
 
         .student-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 18px;
+            padding: 25px;
             margin-bottom: 20px;
+            border: 2px solid #e0e0e0;
         }
 
         .student-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+            padding-bottom: 18px;
+            border-bottom: 2px solid #dee2e6;
         }
 
         .student-name {
-            font-size: 20px;
-            font-weight: 600;
-            color: #333;
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
         }
 
         .student-no {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 5px 15px;
+            padding: 6px 18px;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 13px;
+            font-weight: 700;
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 12px 0;
+            border-bottom: 1px solid #dee2e6;
         }
 
         .info-label {
-            color: #666;
-            font-weight: 500;
+            color: #6c757d;
+            font-weight: 600;
         }
 
         .info-value {
-            color: #333;
-            font-weight: 600;
+            color: #2c3e50;
+            font-weight: 700;
         }
 
         .payment-table {
             width: 100%;
             margin-top: 20px;
             border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .payment-table th {
-            background: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 12px;
+            padding: 14px;
             text-align: left;
             font-weight: 600;
             font-size: 14px;
         }
 
         .payment-table td {
-            padding: 12px;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 14px;
+            border-bottom: 1px solid #dee2e6;
+            background: white;
+        }
+
+        .payment-table tr:last-child td {
+            border-bottom: none;
         }
 
         .status-badge {
-            padding: 5px 12px;
-            border-radius: 15px;
+            padding: 6px 14px;
+            border-radius: 16px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .status-paid {
@@ -276,35 +274,56 @@
         .logout-btn {
             background: #dc3545;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
             margin-top: 20px;
             width: 100%;
+            font-size: 15px;
         }
 
         .logout-btn:hover {
             background: #c82333;
         }
 
-        .test-mode-badge {
-            background: #ffc107;
-            color: #000;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 15px;
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .test-info {
-            background: #f0f0f0;
+        .stat-box {
+            background: white;
             padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .payment-table {
+                font-size: 13px;
+            }
+            
+            .payment-table th,
+            .payment-table td {
+                padding: 10px 8px;
+            }
         }
     </style>
 </head>
@@ -314,16 +333,14 @@
         <div id="loginPage">
             <div class="logo">
                 <div class="logo-circle">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-                    </svg>
+                    <div class="logo-text">VMS</div>
                 </div>
-                <h1>音樂學校</h1>
-                <p class="subtitle">學費管理系統</p>
+                <h1>VMS 音樂學校</h1>
+                <p class="subtitle">學費管理系統 2026</p>
             </div>
 
             <div class="card">
-                <div class="test-mode-badge">🧪 測試模式</div>
+                <div class="success-badge">✓ 已載入 210 位學生資料</div>
                 <h2>家長登入</h2>
                 
                 <div id="errorMsg" class="error hidden"></div>
@@ -331,24 +348,18 @@
                 <form id="loginForm" onsubmit="handleLogin(event)">
                     <div class="form-group">
                         <label for="phone">手機號碼</label>
-                        <input type="tel" id="phone" placeholder="測試帳號: 0912345678" required>
+                        <input type="tel" id="phone" placeholder="請輸入您的手機號碼" required>
                     </div>
 
                     <button type="submit" class="btn" id="submitBtn">查詢學費</button>
                 </form>
-
-                <div class="divider">
-                    <span>測試帳號</span>
-                </div>
-
-                <div class="test-info">
-                    <strong>可用手機號碼：</strong><br>
-                    • <strong>0912345678</strong> (張小明)<br>
-                    • <strong>0987654321</strong> (李小華、李小美)
-                </div>
             </div>
 
             <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-text">210 位學生</div>
+                </div>
                 <div class="feature">
                     <div class="feature-icon">💳</div>
                     <div class="feature-text">即時查詢</div>
@@ -357,10 +368,6 @@
                     <div class="feature-icon">📊</div>
                     <div class="feature-text">繳費記錄</div>
                 </div>
-                <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <div class="feature-text">安全可靠</div>
-                </div>
             </div>
         </div>
 
@@ -368,65 +375,34 @@
         <div id="dashboardPage" class="hidden">
             <div class="card">
                 <h2>學生資訊</h2>
+                
+                <div class="stats">
+                    <div class="stat-box">
+                        <div class="stat-number" id="totalStudents">0</div>
+                        <div class="stat-label">學生數量</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number" id="paidCount">0/0</div>
+                        <div class="stat-label">已繳月份</div>
+                    </div>
+                </div>
+
                 <div id="studentInfo"></div>
                 <button class="logout-btn" onclick="logout()">登出</button>
             </div>
         </div>
     </div>
 
+    <script src="students-data.js"></script>
     <script>
-        // ===== 配置資料 =====
-        const DEMO_DATA = {
-            '0912345678': [
-                {
-                    studentNo: 'GAG699',
-                    studentName: '張小明',
-                    age: 10,
-                    grade: '國小四年級',
-                    instrument: 'Acoustic Guitar',
-                    payments: [
-                        { month: 'JAN', amount: 1500, receiptNo: 'R2024001', isPaid: true },
-                        { month: 'FEB', amount: 1500, receiptNo: 'R2024002', isPaid: true },
-                        { month: 'MAR', amount: 1500, receiptNo: '', isPaid: false },
-                        { month: 'APR', amount: 1500, receiptNo: '', isPaid: false },
-                    ]
-                }
-            ],
-            '0987654321': [
-                {
-                    studentNo: 'P720',
-                    studentName: '李小華',
-                    age: 12,
-                    grade: '國小六年級',
-                    instrument: 'Piano',
-                    payments: [
-                        { month: 'JAN', amount: 2000, receiptNo: 'R2024010', isPaid: true },
-                        { month: 'FEB', amount: 2000, receiptNo: '', isPaid: false },
-                        { month: 'MAR', amount: 2000, receiptNo: '', isPaid: false },
-                    ]
-                },
-                {
-                    studentNo: 'PA619(S)',
-                    studentName: '李小美',
-                    age: 9,
-                    grade: '國小三年級',
-                    instrument: 'Piano',
-                    payments: [
-                        { month: 'JAN', amount: 1800, receiptNo: 'R2024011', isPaid: true },
-                        { month: 'FEB', amount: 1800, receiptNo: '', isPaid: false },
-                    ]
-                }
-            ]
-        };
-
         // ===== 工具函式 =====
         function normalizePhone(phone) {
-            return phone.replace(/[-\s]/g, '');
+            return phone.replace(/[-\s]/g, '').replace(/^(\+65|65)/, '');
         }
 
         function validatePhone(phone) {
             const cleaned = normalizePhone(phone);
-            return /^09\d{8}$/.test(cleaned);
+            return /^\d{8,10}$/.test(cleaned);
         }
 
         // ===== 顯示學生資訊 =====
@@ -434,18 +410,25 @@
             const container = document.getElementById('studentInfo');
             container.innerHTML = '';
 
+            let totalPaid = 0;
+            let totalMonths = 0;
+
             students.forEach(student => {
                 const card = document.createElement('div');
                 card.className = 'student-card';
                 
+                const paidMonths = student.payments.filter(p => p.isPaid).length;
+                totalPaid += paidMonths;
+                totalMonths += student.payments.length;
+
                 const paymentsHTML = student.payments.map(payment => `
                     <tr>
-                        <td>${payment.month}</td>
+                        <td><strong>${payment.month}</strong></td>
                         <td>$${payment.amount}</td>
                         <td>${payment.receiptNo || '-'}</td>
                         <td>
                             <span class="status-badge ${payment.isPaid ? 'status-paid' : 'status-unpaid'}">
-                                ${payment.isPaid ? '已繳費' : '未繳費'}
+                                ${payment.isPaid ? '✓ 已繳費' : '○ 未繳費'}
                             </span>
                         </td>
                     </tr>
@@ -466,17 +449,17 @@
                         <span class="info-value">${student.age} 歲</span>
                     </div>
                     <div class="info-row">
-                        <span class="info-label">年級</span>
+                        <span class="info-label">級別</span>
                         <span class="info-value">${student.grade}</span>
                     </div>
 
-                    <h3 style="margin-top: 20px; margin-bottom: 10px; color: #333;">繳費記錄</h3>
+                    <h3 style="margin-top: 22px; margin-bottom: 12px; color: #2c3e50; font-weight: 700;">繳費記錄</h3>
                     <table class="payment-table">
                         <thead>
                             <tr>
                                 <th>月份</th>
                                 <th>金額</th>
-                                <th>收據編號</th>
+                                <th>收據號</th>
                                 <th>狀態</th>
                             </tr>
                         </thead>
@@ -488,6 +471,10 @@
 
                 container.appendChild(card);
             });
+
+            // 更新統計
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('paidCount').textContent = `${totalPaid}/${totalMonths}`;
         }
 
         // ===== 處理登入 =====
@@ -502,7 +489,7 @@
 
             // 驗證手機號碼
             if (!validatePhone(phone)) {
-                errorMsg.textContent = '請輸入有效的手機號碼（格式：09xxxxxxxx）';
+                errorMsg.textContent = '請輸入有效的手機號碼';
                 errorMsg.classList.remove('hidden');
                 return;
             }
@@ -534,14 +521,14 @@
                     loginPage.classList.add('hidden');
                     dashboardPage.classList.remove('hidden');
                 } else {
-                    errorMsg.textContent = '找不到與此手機號碼相關的學生\n\n請使用測試帳號：0912345678 或 0987654321';
+                    errorMsg.innerHTML = `找不到與此手機號碼相關的學生<br><br><small>請確認手機號碼正確，或聯絡學校查詢您的登記資料</small>`;
                     errorMsg.classList.remove('hidden');
                 }
 
                 // 恢復按鈕
                 submitBtn.textContent = '查詢學費';
                 submitBtn.disabled = false;
-            }, 500);
+            }, 600);
         }
 
         // ===== 登出功能 =====
@@ -567,6 +554,9 @@
                     localStorage.removeItem('students');
                 }
             }
+
+            // 顯示資料統計
+            console.log(`系統已載入 ${Object.keys(DEMO_DATA).length} 位學生的資料`);
         });
     </script>
 </body>
